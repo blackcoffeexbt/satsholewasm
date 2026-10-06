@@ -8,57 +8,246 @@
   </head>
   <body>
     <main>
-      <h1>SatsHole · Bitcoin Borough</h1>
+      <h1>SatsHole</h1>
       <p>
         Configure official play, review verified runs, and settle weekly prizes.
       </p>
       <p id="error" role="alert"></p>
-      <p id="public-link"></p>
-      <form id="settings">
-        <h2>Game settings</h2>
-        <label>Receiving wallet<select id="wallet" required></select></label>
-        <div id="fields"></div>
-        <button>Save settings</button>
-      </form>
-      <section>
-        <h2>Revenue and liabilities</h2>
-        <pre id="metrics"></pre>
+      <section class="share-card" aria-labelledby="share-title">
+        <h2 id="share-title">Share your game</h2>
+        <p id="share-help" class="section-help">
+          Choose a receiving wallet and save settings to create your public game
+          link.
+        </p>
+        <div class="share-controls">
+          <input
+            id="public-link"
+            type="text"
+            readonly
+            aria-label="Public game link"
+            placeholder="Your public link will appear here"
+          /><button id="copy-public-link" type="button" disabled>
+            Copy link</button
+          ><button id="open-public-link" type="button" disabled>
+            Open game
+          </button>
+        </div>
+        <p
+          id="share-status"
+          class="section-help"
+          role="status"
+          aria-live="polite"
+        ></p>
       </section>
-      <section>
-        <h2>Competitions and payments</h2>
-        <button id="refresh">Refresh</button>
-        <div id="operations"></div>
-      </section>
-      <section>
-        <h2>Run and entry review</h2>
-        <div id="runs"></div>
-        <button id="previous">Previous page</button
-        ><button id="next">Next page</button>
-        <pre id="inspection"></pre>
-        <textarea
-          id="replay"
-          aria-label="Replay JSON"
-          hidden
-          readonly
-        ></textarea>
-        <form id="review-entry">
-          <label>Entry ID<input name="submission_id" required /></label
-          ><label>Reason<input name="reason" minlength="3" required /></label
-          ><label
-            ><input name="disqualified" type="checkbox" />Disqualified</label
-          ><label
-            ><input name="refund" type="checkbox" />Refund entry in full</label
-          ><button>Apply entry review</button>
+      <div class="admin-tabs" role="tablist" aria-label="Game administration">
+        <button
+          type="button"
+          role="tab"
+          id="tab-settings"
+          aria-controls="panel-settings"
+          aria-selected="true"
+          tabindex="0"
+        >
+          Settings
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-review"
+          aria-controls="panel-review"
+          aria-selected="false"
+          tabindex="-1"
+        >
+          Run review
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-payments"
+          aria-controls="panel-payments"
+          aria-selected="false"
+          tabindex="-1"
+        >
+          Prizes & payments
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-audit"
+          aria-controls="panel-audit"
+          aria-selected="false"
+          tabindex="-1"
+        >
+          Audit
+        </button>
+      </div>
+      <div
+        class="tab-panel"
+        role="tabpanel"
+        id="panel-settings"
+        aria-labelledby="tab-settings"
+        tabindex="0"
+      >
+        <form id="settings">
+          <h2>Game settings</h2>
+          <p class="section-help heading-help">
+            Configure play, leaderboard entry, prizes and the weekly closing
+            schedule. Save changes using the button below.
+          </p>
+          <fieldset class="settings-section wallet-section">
+            <legend>Receiving wallet</legend>
+            <p class="section-help">
+              Choose the wallet that receives play and entry payments and funds
+              prize and refund transfers. The receiving wallet is fixed after
+              first setup.
+            </p>
+            <label class="field"
+              ><span>Game wallet</span
+              ><select id="wallet" required></select
+            ></label>
+          </fieldset>
+          <div id="fields"></div>
+          <div class="form-actions">
+            <p class="section-help">
+              Official game and prize rules apply to the next competition.
+              Availability changes apply immediately.
+            </p>
+            <button id="save-settings" type="button">Save settings</button>
+          </div>
         </form>
-      </section>
-      <section>
-        <h2>Emergency pause</h2>
-        <button id="pause">Pause new games and entries</button>
-      </section>
-      <section>
-        <h2>Audit journal</h2>
-        <pre id="audit"></pre>
-      </section>
+        <section>
+          <h2>Emergency pause</h2>
+          <p class="section-help heading-help">
+            Stop new official games and leaderboard entries immediately.
+            Practice remains available, and existing records are preserved.
+          </p>
+          <button id="pause">Pause new games and entries</button>
+        </section>
+      </div>
+      <div
+        class="tab-panel"
+        role="tabpanel"
+        id="panel-review"
+        aria-labelledby="tab-review"
+        tabindex="0"
+        hidden
+      >
+        <section>
+          <h2>Run and entry review</h2>
+          <p class="section-help heading-help">
+            Inspect official attempts and their replay records, export inputs,
+            or block a player. Review individual leaderboard entries below.
+          </p>
+          <div id="runs" class="empty-state">
+            Save your settings to review official runs.
+          </div>
+          <button id="previous">Previous page</button
+          ><button id="next">Next page</button>
+          <pre id="inspection"></pre>
+          <textarea
+            id="replay"
+            aria-label="Replay JSON"
+            hidden
+            readonly
+          ></textarea>
+          <form id="review-entry" class="review-form">
+            <h3>Review an entry</h3>
+            <p class="section-help">
+              Disqualify an entry or refund its full entry fee before the prize
+              plan is frozen. A full refund cannot be reversed.
+            </p>
+            <div class="field-grid">
+              <label class="field"
+                ><span>Entry ID</span
+                ><input
+                  name="submission_id"
+                  required
+                  aria-describedby="entry-id-help"
+                /><small id="entry-id-help" class="field-help"
+                  >Enter entry: followed by the run ID shown in the inspection
+                  above.</small
+                ></label
+              ><label class="field"
+                ><span>Reason</span
+                ><input
+                  name="reason"
+                  minlength="3"
+                  required
+                  aria-describedby="entry-reason-help"
+              /></label>
+            </div>
+            <p id="entry-reason-help" class="field-help">
+              Explain why you are taking this action. The reason is saved in the
+              audit journal.
+            </p>
+            <div class="review-toggles">
+              <label class="toggle-field"
+                ><input name="disqualified" type="checkbox" /><span
+                  >Disqualify entry</span
+                ></label
+              ><label class="toggle-field"
+                ><input name="refund" type="checkbox" /><span
+                  >Refund entry in full</span
+                ></label
+              >
+            </div>
+            <button id="apply-entry-review" type="button">
+              Apply entry review
+            </button>
+          </form>
+        </section>
+      </div>
+      <div
+        class="tab-panel"
+        role="tabpanel"
+        id="panel-payments"
+        aria-labelledby="tab-payments"
+        tabindex="0"
+        hidden
+      >
+        <section>
+          <h2>Revenue and liabilities</h2>
+          <p class="section-help heading-help">
+            See recorded play and leaderboard revenue alongside prizes and
+            refunds still owed. These figures are not the wallet’s spendable
+            balance.
+          </p>
+          <div id="metrics" class="metric-grid">
+            <p class="empty-state">
+              Save your settings to see revenue and outstanding payments.
+            </p>
+          </div>
+        </section>
+        <section>
+          <h2>Competitions and payments</h2>
+          <p class="section-help heading-help">
+            After a week closes and its review delay ends, freeze the prize
+            plan, review recipients, and explicitly send prizes or refunds.
+            Retries use the saved invoice.
+          </p>
+          <button id="refresh">Refresh</button>
+          <div id="operations" class="empty-state">
+            Save your settings to manage competitions and payments.
+          </div>
+        </section>
+      </div>
+      <div
+        class="tab-panel"
+        role="tabpanel"
+        id="panel-audit"
+        aria-labelledby="tab-audit"
+        tabindex="0"
+        hidden
+      >
+        <section>
+          <h2>Audit journal</h2>
+          <p class="section-help heading-help">
+            Review the recorded reasons and outcomes of operator actions,
+            including moderation, holds and settlement.
+          </p>
+          <pre id="audit"></pre>
+        </section>
+      </div>
     </main>
     <script src="/ext-assets/satsholewasm/lnbits-extension-sdk.js"></script>
     <script src="/ext-assets/satsholewasm/admin.js"></script>

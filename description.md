@@ -1,7 +1,10 @@
-# SatsHole · Bitcoin Borough
+SatsHole can be used as a template for building new extensions, it includes a bunch of functions that can be edited/deleted as you need them.
 
-Swallow street scraps, cars and skyscrapers in an original 3D arcade city. Play unlimited practice or official runs, then compete with a verified score on a weekly Lightning leaderboard.
+This is a longform description that will be used in the advanced description when users click on the "more" button on the extension cards.
 
-This development port uses the native LNbits WASM component host. Its JavaScript replay engine runs inside WASM with resumable checkpoints, so the server does not require Node.js.
+Adding some bullets is nice covering:
 
-See README.md for installation, required replay fuel limits and current financial/concurrency limitations.
+- Functionality
+- Use cases
+
+...and some other text about just how great this etension is.

@@ -1,10 +1,10 @@
 {
   "id": "satsholewasm",
-  "name": "SatsHole \u00b7 Bitcoin Borough",
-  "short_description": "3D city-eating arcade game with paid attempts and verified weekly competitions.",
-  "version": "0.1.0",
+  "name": "SatsHole",
+  "short_description": "A 3D city arcade game with Lightning play payments",
+  "version": "0.1.5",
   "min_lnbits_version": "1.6.2",
-  "tile": "/ext-assets/satsholewasm/image/satshole-icon-v2.png",
+  "tile": "/ext-assets/satsholewasm/assets/icon.png",
   "tags": [
     "gaming",
     "wasm"
@@ -99,5 +99,26 @@
       "id": "utils.basic",
       "description": "Generate secure player and run secrets and validate Lightning invoices."
     }
-  ]
+  ],
+  "contributors": [
+    {
+      "name": "BlackCoffee",
+      "uri": "https://github.com/blackcoffeexbt",
+      "role": "Chief Ideator"
+    }
+  ],
+  "images": [
+    {
+      "uri": "https://raw.githubusercontent.com/blackcoffeexbt/satsholeio/main/static/image/01.jpg"
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/blackcoffeexbt/satsholeio/main/static/image/02.jpg"
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/blackcoffeexbt/satsholeio/main/static/image/03.jpg"
+    }
+  ],
+  "description_md": "https://raw.githubusercontent.com/blackcoffeexbt/satsholeio/main/description.md",
+  "terms_and_conditions_md": "https://raw.githubusercontent.com/blackcoffeexbt/satsholeio/main/toc.md",
+  "license": "MIT"
 }
