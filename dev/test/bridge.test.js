@@ -1,0 +1,9 @@
+import {test} from 'node:test'
+import assert from 'node:assert/strict'
+
+test('sandbox bridge persists identity across module reload and resumes authoritative verification',async()=>{
+ const memory=new Map(),calls=[];let verifyCount=0
+ globalThis.window={SatsHoleBridge:{async send(r){if(r.action==='context')return {routeParams:{arenaId:'arena-demo'}};if(r.action==='storage.session.get')return {value:memory.get(r.key)||''};if(r.action==='storage.session.set'){memory.set(r.key,r.value);return {ok:true}}throw Error('Unexpected bridge request')},async request(path,{method,body}){calls.push({path,method,body});assert.equal(method,'POST');assert.equal(path,'/api/v1/ext/satsholewasm/arenas/arena-demo/call');if(body.action==='session')return {player_token:'a'.repeat(64),runs:[],free_remaining:3};assert.equal(body.player_token,'a'.repeat(64));if(body.action==='runs')return {id:'run-demo',status:'READY'};if(body.action==='start')return {seed:42,run_token:'b'.repeat(64)};if(body.action==='finish')return {status:'VERIFYING'};if(body.action==='verify')return ++verifyCount===1?{status:'VERIFYING'}:{status:'VERIFIED',authoritative_score:1234};throw Error('Unexpected public operation')}}}
+ const first=await import('../../static/js/session.js?bridge-first'),session=new first.GameSession();await session.init();await session.prepare(true);const start=await session.start();assert.equal(start.seed,42);const result=await session.finish([[0,100,0]]);assert.equal(result.authoritative_score,1234);assert.equal(verifyCount,2);const finish=calls.find(x=>x.body.action==='finish');assert.deepEqual(finish.body.inputs,[[0,100,0]]);assert.equal('score' in finish.body,false);assert.equal(finish.body.run_token,'b'.repeat(64));
+ const next=await import('../../static/js/session.js?bridge-reload');await new next.GameSession().init();assert.equal(calls.at(-1).body.player_token,'a'.repeat(64));delete globalThis.window
+})

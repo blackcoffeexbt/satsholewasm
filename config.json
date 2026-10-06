@@ -1,0 +1,103 @@
+{
+  "id": "satsholewasm",
+  "name": "SatsHole \u00b7 Bitcoin Borough",
+  "short_description": "3D city-eating arcade game with paid attempts and verified weekly competitions.",
+  "version": "0.1.0",
+  "min_lnbits_version": "1.6.2",
+  "tile": "/ext-assets/satsholewasm/image/satshole-icon-v2.png",
+  "tags": [
+    "gaming",
+    "wasm"
+  ],
+  "extension_type": "wasm",
+  "wasm": {
+    "module": "wasm/module.wasm",
+    "world": "satsholewasm",
+    "exports": [
+      {
+        "name": "invoke-public",
+        "visibility": "public"
+      },
+      {
+        "name": "invoke-admin",
+        "visibility": "authenticated"
+      },
+      {
+        "name": "record-payment",
+        "visibility": "event"
+      }
+    ],
+    "wit": "wasm/lnbits-extension.wit"
+  },
+  "events": {
+    "onInvoicePaid": "record-payment"
+  },
+  "ui_routes": [
+    {
+      "path": "/satsholewasm",
+      "entrypoint": "ui/admin.html",
+      "auth": "user"
+    },
+    {
+      "path": "/satsholewasm/arenas/{arena_id}/play",
+      "entrypoint": "ui/public.html",
+      "auth": "public",
+      "path_params": {
+        "arena_id": "arenaId"
+      }
+    }
+  ],
+  "api_routes": [
+    {
+      "method": "POST",
+      "path": "/admin/call",
+      "export": "invoke-admin",
+      "auth": "user"
+    },
+    {
+      "method": "POST",
+      "path": "/arenas/{arena_id}/call",
+      "export": "invoke-public",
+      "auth": "public",
+      "path_params": {
+        "arena_id": "arenaId"
+      },
+      "ownerContext": {
+        "table": "arenas",
+        "idParam": "arenaId"
+      }
+    }
+  ],
+  "permissions": [
+    {
+      "id": "ext.storage.read",
+      "description": "Read game, replay, accounting and operator records."
+    },
+    {
+      "id": "ext.storage.write",
+      "description": "Persist attempts, replay checkpoints, receipts and audited operator actions."
+    },
+    {
+      "id": "wallet.list",
+      "description": "Choose a receiving wallet owned by the operator."
+    },
+    {
+      "id": "wallet.create_invoice_public",
+      "description": "Create play and leaderboard invoices for an arena.",
+      "policies": [
+        {
+          "table": "arenas",
+          "wallet_field": "wallet_id"
+        }
+      ]
+    },
+    {
+      "id": "wallet.pay_invoice",
+      "description": "Pay frozen prize and refund obligations using persisted invoices."
+    },
+    {
+      "id": "utils.basic",
+      "description": "Generate secure player and run secrets and validate Lightning invoices."
+    }
+  ]
+}

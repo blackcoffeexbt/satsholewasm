@@ -1,0 +1,13 @@
+{
+  "name": "lnbits-satsholewasm",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/index.js && node --check src/lnbits-sdk.js && node --check ../static/lnbits-extension-sdk.js && node --check ../static/qr.js && node --check ../static/js/game.js && node --check ../static/js/weekly.js && node --check ../static/js/session.js && node --check ../static/admin.js && node --test test/*.test.js",
+    "build:wasm": "node scripts/bundle.mjs && jco componentize dist/index.bundle.js --disable all --enable clocks --enable random --enable stdio --wit ../wasm/lnbits-extension.wit --world-name satsholewasm -o ../wasm/module.wasm",
+    "preview": "node scripts/preview.mjs"
+  },
+  "devDependencies": {
+    "@bytecodealliance/jco": "1.24.3"
+  }
+}

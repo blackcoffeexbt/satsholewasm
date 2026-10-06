@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "tables": {
+    "arenas": {
+      "fields": [
+        {
+          "name": "id",
+          "type": "string"
+        },
+        {
+          "name": "wallet_id",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "config_json",
+          "type": "string"
+        },
+        {
+          "name": "created_at",
+          "type": "integer"
+        }
+      ]
+    },
+    "records": {
+      "fields": [
+        {
+          "name": "id",
+          "type": "string"
+        },
+        {
+          "name": "arena_id",
+          "type": "string"
+        },
+        {
+          "name": "player_id",
+          "type": "string"
+        },
+        {
+          "name": "run_id",
+          "type": "string"
+        },
+        {
+          "name": "competition_id",
+          "type": "string"
+        },
+        {
+          "name": "kind",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "type": "string"
+        },
+        {
+          "name": "payload",
+          "type": "string"
+        },
+        {
+          "name": "created_at",
+          "type": "integer"
+        }
+      ]
+    }
+  },
+  "indexes": [
+    {
+      "table": "records",
+      "name": "records_by_arena_id",
+      "field": "arena_id"
+    },
+    {
+      "table": "records",
+      "name": "records_by_player_id",
+      "field": "player_id"
+    },
+    {
+      "table": "records",
+      "name": "records_by_run_id",
+      "field": "run_id"
+    },
+    {
+      "table": "records",
+      "name": "records_by_competition_id",
+      "field": "competition_id"
+    },
+    {
+      "table": "records",
+      "name": "records_by_kind",
+      "field": "kind"
+    }
+  ]
+}

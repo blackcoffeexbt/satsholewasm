@@ -1,0 +1,6 @@
+dev/node_modules/
+dev/dist/
+dev/.preview/
+dev/.test/
+__pycache__/
+dev/*.log

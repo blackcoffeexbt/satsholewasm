@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SatsHole operator</title>
+    <link rel="stylesheet" href="/ext-assets/satsholewasm/admin.css" />
+  </head>
+  <body>
+    <main>
+      <h1>SatsHole · Bitcoin Borough</h1>
+      <p>
+        Configure official play, review verified runs, and settle weekly prizes.
+      </p>
+      <p id="error" role="alert"></p>
+      <p id="public-link"></p>
+      <form id="settings">
+        <h2>Game settings</h2>
+        <label>Receiving wallet<select id="wallet" required></select></label>
+        <div id="fields"></div>
+        <button>Save settings</button>
+      </form>
+      <section>
+        <h2>Revenue and liabilities</h2>
+        <pre id="metrics"></pre>
+      </section>
+      <section>
+        <h2>Competitions and payments</h2>
+        <button id="refresh">Refresh</button>
+        <div id="operations"></div>
+      </section>
+      <section>
+        <h2>Run and entry review</h2>
+        <div id="runs"></div>
+        <button id="previous">Previous page</button
+        ><button id="next">Next page</button>
+        <pre id="inspection"></pre>
+        <textarea
+          id="replay"
+          aria-label="Replay JSON"
+          hidden
+          readonly
+        ></textarea>
+        <form id="review-entry">
+          <label>Entry ID<input name="submission_id" required /></label
+          ><label>Reason<input name="reason" minlength="3" required /></label
+          ><label
+            ><input name="disqualified" type="checkbox" />Disqualified</label
+          ><label
+            ><input name="refund" type="checkbox" />Refund entry in full</label
+          ><button>Apply entry review</button>
+        </form>
+      </section>
+      <section>
+        <h2>Emergency pause</h2>
+        <button id="pause">Pause new games and entries</button>
+      </section>
+      <section>
+        <h2>Audit journal</h2>
+        <pre id="audit"></pre>
+      </section>
+    </main>
+    <script src="/ext-assets/satsholewasm/lnbits-extension-sdk.js"></script>
+    <script src="/ext-assets/satsholewasm/admin.js"></script>
+  </body>
+</html>
